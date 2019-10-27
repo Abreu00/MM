@@ -24,7 +24,7 @@ class AddRecordState extends State<AddRecord> {
 
   void handleSubmit() {
     if (_formKey.currentState.validate()) {
-      print('valid');
+      Navigator.pop(context);
     }
   }
 
@@ -42,8 +42,8 @@ class AddRecordState extends State<AddRecord> {
 
   @override
   Widget build(BuildContext context) {
-
-    return Form(
+    
+    Widget form = Form(
       key: _formKey,
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -53,13 +53,26 @@ class AddRecordState extends State<AddRecord> {
             yield Container(
               child: RaisedButton(
               onPressed: this.handleSubmit,
-              child: Text("Submit"),
-              )
+              child: Text(
+                "Salvar",
+                style: TextStyle(fontSize: 20),
+              ),
+              ),
             );  
           }())
         ),
       )
     );
+    
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Novo dia'),
+        centerTitle: false,
+      ),
+      body: form
+    
+    );
+    
   }
 }
 

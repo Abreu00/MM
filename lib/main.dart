@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'addRecord.dart';
+import 'home.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,12 +9,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp( 
       title: "Mastermind",
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Mastermind"),
-        ),
-        body: AddRecord()
-      ),
+      home: Home(),
       theme: ThemeData(
         brightness: Brightness.dark,
         primaryColor: Colors.grey[800],
