@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dailyReport.dart';
+import 'dart:convert';
 
 class AddRecord extends StatefulWidget {
   
@@ -21,9 +23,24 @@ class AddRecordState extends State<AddRecord> {
     "Fui melhor que ontem?",
     "Sou grato por...",
   ];
+  final List<TextEditingController> inputs = <TextEditingController>[
+    new TextEditingController(),
+    new TextEditingController(),
+    new TextEditingController(),
+    new TextEditingController(),
+    new TextEditingController(),
+    new TextEditingController(),
+    new TextEditingController(),
+    new TextEditingController()
+  ];
 
   void handleSubmit() {
-    if (_formKey.currentState.validate()) {
+    if (_formKey.currentState.validate()) {    
+      
+      List<String> content = inputs.map((controller) => controller.text).toList();
+      DailyReport report = new DailyReport(content: json.encode(content));
+      report.insertReport();
+      
       Navigator.pop(context);
     }
   }
@@ -31,12 +48,11 @@ class AddRecordState extends State<AddRecord> {
   List<Widget> createFields() {
       List<Widget> fields = new List<Widget>();
 
-      lista.forEach((item) {
+      for (int i = 0; i < lista.length; ++i) {
         fields.add(
-          RecordField(field: item)
+          RecordField(field: lista[i], controller: inputs[i])
         );
-      });
-    
+      }
       return fields;
   }
 
@@ -79,8 +95,9 @@ class AddRecordState extends State<AddRecord> {
 class RecordField extends StatelessWidget {
 
   final String field;
+  final TextEditingController controller;
 
-  RecordField({this.field});
+  RecordField({this.field, this.controller});
 
   String validator(value) {
     if (value.isEmpty) {
@@ -107,6 +124,7 @@ class RecordField extends StatelessWidget {
             validator: this.validator,
             maxLines: null,
             keyboardType: TextInputType.multiline,
+            controller: this.controller,
             decoration: new InputDecoration(
               filled: true,
               fillColor: Theme.of(context).primaryColor,
