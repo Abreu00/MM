@@ -1,14 +1,30 @@
 import 'package:flutter/material.dart';
 import 'addRecord.dart';
 import 'dailyReport.dart';
+import 'dart:convert';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   
+  @override
+  HomeState createState() => HomeState();
+}
 
-  Future<String> getText() async {
+
+class HomeState extends State<Home> {
+  
+  List<DailyReport> _reports = List<DailyReport>();
+
+  void fetchReports() async {
     List<DailyReport> reports = await DailyReport.reports();
-    
-    return reports[reports.length -1].content;
+    setState(() {
+      _reports = reports;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchReports();
   }
 
   @override
@@ -18,7 +34,7 @@ class Home extends StatelessWidget {
         centerTitle: true,
         title: Text("Mastermind"),
       ),
-      body: Center(child: Text("aa")),
+      body: ReportsList(reports: _reports,),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
@@ -28,3 +44,43 @@ class Home extends StatelessWidget {
     );
   }
 }
+
+class ReportsList extends StatelessWidget {
+  final List<DailyReport> reports;
+
+  ReportsList({this.reports});
+
+  
+  String formatFromEpoch(int sinceEpoch) {
+    DateTime date = new DateTime.fromMillisecondsSinceEpoch(sinceEpoch);
+    List<String> yearMonthDay = date.toLocal().toString().split(' ')[0].split('-');
+    String dayMonthYearFormated = yearMonthDay.reversed.join('/');
+
+    return dayMonthYearFormated;
+  
+  }
+  
+  Widget build(BuildContext context) {
+
+    return ListView.separated(
+      itemCount: reports.length,
+      padding: EdgeInsets.all(8),
+      separatorBuilder: (BuildContext context, int index) => Divider(),
+      itemBuilder: (BuildContext context, int index) {
+        return 
+        GestureDetector(
+          child: Container(
+            color: Theme.of(context).primaryColor,
+            child: Center(child: Text(formatFromEpoch(reports[index].creation)) ),
+            height: MediaQuery.of(context).size.height * 0.1,
+          ),
+          onTap: () {
+            print(index);
+          },
+        );
+      },
+    );
+  }
+
+}
+
