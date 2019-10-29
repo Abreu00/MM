@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'addRecord.dart';
 import 'dailyReport.dart';
+import './pages/reportView.dart';
 import 'dart:convert';
 
 class Home extends StatefulWidget {
@@ -27,6 +28,11 @@ class HomeState extends State<Home> {
     fetchReports();
   }
 
+  void gotoAddRecord() async {
+    final newReport = await Navigator.push(context, MaterialPageRoute(builder: (context) => AddRecord()));
+    _reports.add(newReport);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,9 +43,7 @@ class HomeState extends State<Home> {
       body: ReportsList(reports: _reports,),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => AddRecord()));
-        },
+        onPressed: gotoAddRecord,
       ),
     );
   }
@@ -75,7 +79,10 @@ class ReportsList extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.1,
           ),
           onTap: () {
-            print(index);
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ReportView(
+              reportDate: formatFromEpoch(reports[index].creation),
+              content: json.decode(reports[index].content),
+            )));
           },
         );
       },

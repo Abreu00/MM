@@ -40,9 +40,8 @@ class AddRecordState extends State<AddRecord> {
       List<String> content = inputs.map((controller) => controller.text).toList();
       DailyReport report = new DailyReport(content: json.encode(content));
       
-  report.insertReport();
-
-      Navigator.pop(context);
+      report.insertReport();
+      Navigator.pop(context, report);
     }
   }
 
