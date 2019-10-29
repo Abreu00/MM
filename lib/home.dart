@@ -40,7 +40,7 @@ class HomeState extends State<Home> {
         centerTitle: true,
         title: Text("Mastermind"),
       ),
-      body: ReportsList(reports: _reports,),
+      body: ReportsList(reports: _reports.reversed.toList(),),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: gotoAddRecord,
