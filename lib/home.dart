@@ -30,7 +30,7 @@ class HomeState extends State<Home> {
 
   void gotoAddRecord() async {
     final newReport = await Navigator.push(context, MaterialPageRoute(builder: (context) => AddRecord()));
-    _reports.add(newReport);
+    if (newReport != null) _reports.add(newReport);
   }
 
   @override
