@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'addRecord.dart';
-import 'dailyReport.dart';
-import './pages/reportView.dart';
+import '../dailyReport.dart';
+import 'reportView.dart';
 import 'dart:convert';
 
 class Home extends StatefulWidget {

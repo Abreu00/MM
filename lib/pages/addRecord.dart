@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dailyReport.dart';
+import '../dailyReport.dart';
 import 'dart:convert';
 
 class AddRecord extends StatefulWidget {
